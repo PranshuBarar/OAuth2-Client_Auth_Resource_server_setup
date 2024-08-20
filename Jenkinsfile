@@ -6,12 +6,17 @@ pipeline {
 	}
 
 	stages {
+    	stage('Start MySQL Container') {
+            steps {
+                script {
+                    docker.image('mysql:8.0').withRun('-e MYSQL_ROOT_PASSWORD=pranshubarar -e MYSQL_DATABASE=user_auth_database --name mysql -p 3306:3306') { c ->
+                        // MySQL container is up and running
+                    }
+                }
+            }
+        }
 		stage('Build Authorization Server') {
-			steps {
-				dir('authorizationserverv4') {
-					sh './gradlew build'
-				}
-			}
+			steps {dir('authorizationserverv4') {sh './gradlew build' } }
 		}
 		stage('Start Authorization Server') {
 			steps {
