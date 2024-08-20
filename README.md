@@ -88,21 +88,21 @@ Each module is implemented using Spring Security, with separate configurations a
     - **OAuth2 Client**:
 
         ```bash
-        cd oauth2-client
+        cd clientv4
         ./gradlew bootRun
         ```
 
     - **OAuth2 Authorization Server**:
 
         ```bash
-        cd oauth2-authorization-server
+        cd resourceserverv4
         ./gradlew bootRun
         ```
 
     - **OAuth2 Resource Server**:
 
         ```bash
-        cd oauth2-resource-server
+        cd authorizationserverv4
         ./gradlew bootRun
         ```
 
