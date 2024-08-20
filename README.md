@@ -74,10 +74,10 @@ Each module is implemented using Spring Security, with separate configurations a
 
     ```bash
     git clone https://github.com/PranshuBarar/OAuth2-Client_Auth_Resource_server_setup.git
-    cd your-repo
+    cd OAuth2-Client_Auth_Resource_server_setup
     ```
 
-2. **Build the Project**:
+2. **Build the Project**: (Go inside each individual module and run ./gradlew build)
 
     ```bash
     ./gradlew build
