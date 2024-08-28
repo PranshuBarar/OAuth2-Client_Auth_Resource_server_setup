@@ -1,15 +1,17 @@
 package com.resourceserverv4.resourceserverv4.controller;
 
+import com.resourceserverv4.resourceserverv4.Dto.UserDto;
 import com.resourceserverv4.resourceserverv4.entities.UserEntity;
 import com.resourceserverv4.resourceserverv4.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -33,7 +35,6 @@ public class Controller {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication != null && authentication.isAuthenticated()) {
             Jwt jwt = (Jwt) authentication.getPrincipal();
-//            return jwt.getClaimAsString("sub");
 
             UUID userId = UUID.fromString(jwt.getClaimAsString("sub"));
 
@@ -44,4 +45,21 @@ public class Controller {
         }
         return null;
     }
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@RequestBody UserDto userDto){
+        UserEntity userEntity = userRepository.findByUsername(userDto.getUsername());
+        if(userEntity != null){
+            return new ResponseEntity<>("User already exists with this username", HttpStatus.OK);
+        }
+        userEntity = new UserEntity();
+        userEntity.setUsername(userDto.getUsername());
+        userEntity.setPassword(userDto.getPassword());
+
+        userRepository.save(userEntity);
+
+        return new ResponseEntity<>("User saved successfully", HttpStatus.CREATED);
+    }
+
+
 }
